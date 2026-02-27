@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SurtiPaez – Frescura del Campo a tu Mesa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde: #2d6a2d;
+      --verde-claro: #4caf50;
+      --amarillo: #f9c22e;
+      --naranja: #e8650a;
+      --crema: #fdf6e3;
+      --cafe: #5c3a1e;
+      --blanco: #ffffff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--crema);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 48px;
+      background: rgba(45,106,45,0.96);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; color: var(--amarillo);
+      text-decoration: none; letter-spacing: 1px;
+    }
+    .nav-login {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--amarillo); color: var(--cafe);
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      font-size: 0.95rem; padding: 10px 24px; border-radius: 50px;
+      text-decoration: none; transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+    .nav-login:hover {
+      background: transparent; color: var(--amarillo);
+      border-color: var(--amarillo);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1a4a1a 0%, #2d6a2d 40%, #3d8b3d 70%, #5c3a1e 100%);
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; text-align: center;
+      padding: 100px 24px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:'';
+      position:absolute; inset:0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .hero-badge {
+      background: var(--naranja); color: white;
+      font-size: 0.8rem; font-weight: 700;
+      padding: 6px 18px; border-radius: 50px;
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 20px; display: inline-block;
+      animation: fadeDown 0.8s ease both;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 8rem);
+      font-weight: 900; line-height: 1;
+      color: white;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+      animation: fadeDown 0.8s 0.2s ease both;
+    }
+    .hero-title span { color: var(--amarillo); }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: rgba(255,255,255,0.85);
+      margin: 20px 0 50px; max-width: 520px;
+      line-height: 1.6;
+      animation: fadeDown 0.8s 0.4s ease both;
+    }
+
+    /* ── CTA BUTTON ── */
+    .cta-btn {
+      position: relative; display: inline-flex; align-items: center; gap: 12px;
+      background: linear-gradient(135deg, var(--amarillo), var(--naranja));
+      color: var(--cafe); font-family: 'Nunito', sans-serif;
+      font-weight: 800; font-size: 1.2rem;
+      padding: 18px 48px; border-radius: 60px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 8px 32px rgba(233,101,10,0.4);
+      animation: fadeDown 0.8s 0.6s ease both, pulse 2.5s 1.5s ease-in-out infinite;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 16px 48px rgba(233,101,10,0.5);
+      animation: none;
+    }
+    .cta-btn .icon { font-size: 1.4rem; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 8px 32px rgba(233,101,10,0.4); }
+      50%      { box-shadow: 0 8px 48px rgba(233,101,10,0.7), 0 0 0 10px rgba(233,101,10,0.1); }
+    }
+
+    /* ── FOTOS HERO ── */
+    .hero-photos {
+      display: flex; gap: 16px; margin-top: 64px; flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+    .hero-photo {
+      width: 120px; height: 120px; border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255,255,255,0.3);
+      filter: brightness(0.9) saturate(1.2);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .hero-photo:hover { transform: scale(1.1); border-color: var(--amarillo); }
+
+    /* ── CARRUSEL ── */
+    .carousel-section {
+      padding: 80px 0; background: white;
+      overflow: hidden; position: relative;
+    }
+    .carousel-section h2 {
+      font-family: 'Playfair Display', serif;
+      text-align: center; color: var(--verde);
+      font-size: 2.5rem; margin-bottom: 40px;
+    }
+    .carousel-track-outer { overflow: hidden; position: relative; }
+    .carousel-track {
+      display: flex; gap: 24px;
+      animation: scroll 30s linear infinite;
+      width: max-content;
+    }
+    .carousel-track:hover { animation-play-state: paused; }
+    .carousel-card {
+      min-width: 260px; height: 200px;
+      border-radius: 20px; overflow: hidden;
+      position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+    .carousel-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .carousel-card:hover img { transform: scale(1.08); }
+    .carousel-card .label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: white; font-weight: 700; padding: 16px 16px 10px;
+      font-size: 0.95rem;
+    }
+    @keyframes scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 80px 48px;
+      background: var(--crema);
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap: 32px; max-width: 1100px; margin: 0 auto;
+    }
+    .feature-card {
+      background: white; border-radius: 20px;
+      padding: 36px 28px; text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      transition: transform 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-6px); }
+    .feature-icon { font-size: 3rem; margin-bottom: 16px; }
+    .feature-card h3 { color: var(--verde); font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 8px; }
+    .feature-card p { color: #666; line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--verde);
+      color: rgba(255,255,255,0.8);
+      text-align: center; padding: 32px 24px;
+      font-size: 0.9rem;
+    }
+    footer strong { color: var(--amarillo); font-family: 'Playfair Display', serif; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity:0; transform: translateY(-30px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(30px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    @media(max-width:600px){
+      nav { padding: 14px 20px; }
+      .nav-logo { font-size: 1.2rem; }
+      .features { padding: 60px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">🌿 SurtiPaez</a>
+  <a href="login.php" class="nav-login">🔑 Iniciar Sesión</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-badge">🌱 Productos frescos del campo</span>
+  <h1 class="hero-title">Surti<span>Paez</span></h1>
+  <p class="hero-subtitle">Papa, yuca, lichi, plátano y mucho más — directo del campo a tu mesa con la mejor calidad y frescura garantizada.</p>
+  
+  <a href="pedido.html" class="cta-btn">
+    <span class="icon">🛒</span> Solicitar Pedido
+  </a>
+
+  <!-- Fotos genéricas de productos usando servicios externos de imágenes -->
+  <div class="hero-photos">
+    <img class="hero-photo" src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=200&h=200&fit=crop" alt="Papa">
+    <img class="hero-photo" src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=200&h=200&fit=crop" alt="Yuca">
+    <img class="hero-photo" src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=200&h=200&fit=crop" alt="Frutas">
+    <img class="hero-photo" src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=200&h=200&fit=crop" alt="Plátano">
+    <img class="hero-photo" src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=200&h=200&fit=crop" alt="Verduras">
+  </div>
+</section>
+
+<!-- CARRUSEL -->
+<section class="carousel-section">
+  <h2>🌿 Nuestros Productos Frescos</h2>
+  <div class="carousel-track-outer">
+    <div class="carousel-track" id="track">
+      <!-- cards duplicadas para loop infinito -->
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=400&h=300&fit=crop" alt="Papa"><span class="label">🥔 Papa</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=400&h=300&fit=crop" alt="Yuca"><span class="label">🌿 Yuca</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&h=300&fit=crop" alt="Plátano"><span class="label">🍌 Plátano</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=400&h=300&fit=crop" alt="Lichi"><span class="label">🍈 Lichi</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400&h=300&fit=crop" alt="Ahuyama"><span class="label">🎃 Ahuyama</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=400&h=300&fit=crop" alt="Verduras"><span class="label">🥦 Verduras</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=400&h=300&fit=crop" alt="Maíz"><span class="label">🌽 Maíz</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=300&fit=crop" alt="Manzana"><span class="label">🍎 Frutas</span></div>
+      <!-- duplicado para efecto infinito -->
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=400&h=300&fit=crop" alt="Papa"><span class="label">🥔 Papa</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=400&h=300&fit=crop" alt="Yuca"><span class="label">🌿 Yuca</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&h=300&fit=crop" alt="Plátano"><span class="label">🍌 Plátano</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=400&h=300&fit=crop" alt="Lichi"><span class="label">🍈 Lichi</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400&h=300&fit=crop" alt="Ahuyama"><span class="label">🎃 Ahuyama</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=400&h=300&fit=crop" alt="Verduras"><span class="label">🥦 Verduras</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=400&h=300&fit=crop" alt="Maíz"><span class="label">🌽 Maíz</span></div>
+      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=300&fit=crop" alt="Manzana"><span class="label">🍎 Frutas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div style="background:var(--crema); padding-top:20px;">
+  <div class="features">
+    <div class="feature-card">
+      <div class="feature-icon">🌱</div>
+      <h3>100% Fresco</h3>
+      <p>Productos cosechados directamente del campo, sin intermediarios.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🚚</div>
+      <h3>Entrega Rápida</h3>
+      <p>Llevamos tu pedido hasta la puerta de tu casa o negocio.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Mejor Precio</h3>
+      <p>Precios justos directo del productor al consumidor.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <h3>Por Mayor</h3>
+      <p>Atendemos negocios, restaurantes y familias con pedidos al por mayor.</p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p><strong>SurtiPaez</strong> &copy; por el momento proyectiño </p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitar Pedido – SurtiPaez</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --verde:#2d6a2d; --verde-claro:#4caf50;
+      --amarillo:#f9c22e; --naranja:#e8650a;
+      --crema:#fdf6e3; --cafe:#5c3a1e;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family:'Nunito',sans-serif;
+      background: linear-gradient(135deg, #1a4a1a, #2d6a2d 50%, #5c3a1e);
+      min-height:100vh; display:flex; flex-direction:column; align-items:center;
+      padding:40px 16px;
+    }
+    .back-link {
+      align-self:flex-start; color:rgba(255,255,255,0.8); text-decoration:none;
+      font-weight:700; margin-bottom:24px; display:flex; align-items:center; gap:6px;
+      transition:color 0.2s;
+    }
+    .back-link:hover { color:var(--amarillo); }
+    .card {
+      background:white; border-radius:28px;
+      padding:48px 40px; max-width:620px; width:100%;
+      box-shadow:0 24px 60px rgba(0,0,0,0.3);
+    }
+    .card-header { text-align:center; margin-bottom:36px; }
+    .card-header h1 {
+      font-family:'Playfair Display',serif;
+      color:var(--verde); font-size:2.2rem; margin-bottom:8px;
+    }
+    .card-header p { color:#666; }
+
+    .form-row { display:grid; gap:20px; }
+    .form-row.two-col { grid-template-columns:1fr 1fr; }
+
+    .field { display:flex; flex-direction:column; gap:6px; }
+    label { font-weight:700; color:var(--cafe); font-size:0.9rem; }
+    input, select {
+      border:2px solid #e0e0e0; border-radius:12px;
+      padding:12px 16px; font-family:'Nunito',sans-serif; font-size:1rem;
+      transition:border-color 0.2s, box-shadow 0.2s; outline:none;
+    }
+    input:focus, select:focus {
+      border-color:var(--verde-claro);
+      box-shadow:0 0 0 4px rgba(76,175,80,0.12);
+    }
+
+    .separator {
+      border:none; border-top:2px dashed #ddd;
+      margin:28px 0; position:relative;
+    }
+    .separator-label {
+      position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+      background:white; padding:0 12px;
+      color:#aaa; font-size:0.85rem; font-weight:700; white-space:nowrap;
+    }
+
+    .products-section h3 {
+      font-family:'Playfair Display',serif;
+      color:var(--verde); margin-bottom:20px; font-size:1.2rem;
+    }
+    .product-row {
+      display:grid; grid-template-columns:1fr auto;
+      gap:12px; margin-bottom:12px; align-items:end;
+    }
+    .product-row .field input {
+      width:100%;
+    }
+    .qty-field { width:90px; }
+
+    .btn-submit {
+      width:100%; background:linear-gradient(135deg,var(--amarillo),var(--naranja));
+      color:var(--cafe); font-family:'Nunito',sans-serif; font-weight:800;
+      font-size:1.15rem; padding:18px; border:none; border-radius:50px;
+      cursor:pointer; margin-top:32px;
+      box-shadow:0 8px 24px rgba(233,101,10,0.35);
+      transition:transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-submit:hover {
+      transform:translateY(-3px);
+      box-shadow:0 12px 36px rgba(233,101,10,0.5);
+    }
+    .btn-submit:active { transform:translateY(0); }
+
+    .alert-success {
+      background:#e8f5e9; border:2px solid var(--verde-claro);
+      color:var(--verde); border-radius:12px; padding:16px 20px;
+      text-align:center; font-weight:700; margin-top:20px;
+      display:none;
+    }
+
+    @media(max-width:560px){
+      .card { padding:32px 20px; }
+      .form-row.two-col { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-link">← Volver al inicio</a>
+
+  <div class="card">
+    <div class="card-header">
+      <h1>🛒 Solicitar Pedido</h1>
+      <p>Completa el formulario y nos ponemos en contacto contigo</p>
+    </div>
+
+    <form id="pedidoForm" method="POST" action="guardar_pedido.php">
+      <div class="form-row">
+        <div class="field">
+          <label for="nombre">👤 Nombre Completo *</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej: María García" required>
+        </div>
+      </div>
+
+      <div class="form-row two-col" style="margin-top:16px;">
+        <div class="field">
+          <label for="celular">📱 Número de Celular *</label>
+          <input type="tel" id="celular" name="celular" placeholder="3001234567" required>
+        </div>
+        <div class="field">
+          <label for="ciudad">🏙️ Ciudad / Barrio</label>
+          <input type="text" id="ciudad" name="ciudad" placeholder="Tu ciudad">
+        </div>
+      </div>
+
+      <hr class="separator"><span class="separator-label">🌿 Productos</span>
+
+      <div class="products-section">
+        <h3>Detalle de Productos (hasta 5)</h3>
+
+        <!-- 5 filas de producto -->
+        <div class="product-row">
+          <div class="field" style="flex:1;">
+            <label>Producto 1</label>
+            <input type="text" name="producto1" placeholder="Ej: Papa pastusa">
+          </div>
+          <div class="field qty-field">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad1" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="product-row">
+          <div class="field" style="flex:1;">
+            <label>Producto 2</label>
+            <input type="text" name="producto2" placeholder="Ej: Yuca llanera">
+          </div>
+          <div class="field qty-field">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad2" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="product-row">
+          <div class="field" style="flex:1;">
+            <label>Producto 3</label>
+            <input type="text" name="producto3" placeholder="Ej: Lichi fresco">
+          </div>
+          <div class="field qty-field">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad3" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="product-row">
+          <div class="field" style="flex:1;">
+            <label>Producto 4</label>
+            <input type="text" name="producto4" placeholder="Ej: Plátano hartón">
+          </div>
+          <div class="field qty-field">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad4" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="product-row">
+          <div class="field" style="flex:1;">
+            <label>Producto 5</label>
+            <input type="text" name="producto5" placeholder="Ej: Ahuyama">
+          </div>
+          <div class="field qty-field">
+            <label>Cantidad</label>
+            <input type="number" name="cantidad5" placeholder="0" min="0">
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">✅ Enviar Pedido</button>
+      <div class="alert-success" id="successMsg">¡Pedido enviado con éxito! Te contactaremos pronto 🎉</div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('pedidoForm');
+    form.addEventListener('submit', function(e){
+      const nombre = document.getElementById('nombre').value.trim();
+      const celular = document.getElementById('celular').value.trim();
+      if(!nombre || !celular){
+        alert('Por favor ingresa nombre y celular.');
+        e.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>
