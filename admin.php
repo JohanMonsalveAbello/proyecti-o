@@ -6,6 +6,16 @@ if (!isset($_SESSION['admin_id'])) {
 }
 require_once 'db.php';
 
+// Filtro para eliminación
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $stmtDel = $pdo->prepare("DELETE FROM pedidos WHERE id = ?");
+    $stmtDel->execute([$id]);
+    // redirigir sin parámetro delete para evitar repeticiones
+    header('Location: admin.php');
+    exit;
+}
+
 // Filtro por estado
 $filtro = $_GET['estado'] ?? 'todos';
 
@@ -69,7 +79,7 @@ foreach($stmtCount as $row){
       text-decoration:none;display:block;
     }
     .stat-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1);}
-    .stat-card.active{border-2px solid var(--verde);box-shadow:0 0 0 3px var(--verde-claro);}
+    .stat-card.active{border:2px solid var(--verde);box-shadow:0 0 0 3px var(--verde-claro);}
     .stat-number{font-size:2.5rem;font-weight:800;line-height:1;}
     .stat-label{font-size:0.85rem;color:#888;margin-top:4px;font-weight:600;}
     .stat-todos .stat-number{color:#555;}
@@ -124,6 +134,13 @@ foreach($stmtCount as $row){
       cursor:pointer;transition:background 0.2s;
     }
     .btn-ver:hover{background:#1a4a1a;}
+    .btn-eliminar{
+      background:#e53935;color:white;
+      border:none;border-radius:10px;padding:8px 18px;
+      font-family:'Nunito',sans-serif;font-weight:700;font-size:0.85rem;
+      cursor:pointer;transition:background 0.2s;margin-left:8px;
+    }
+    .btn-eliminar:hover{background:#b71c1c;}
 
     .empty-state{
       grid-column:1/-1;text-align:center;padding:60px 20px;
@@ -259,7 +276,7 @@ foreach($stmtCount as $row){
           <?php foreach(array_slice($prods,0,3) as $prod): ?>
             <div class="prod-item">
               <span class="prod-name"><?= htmlspecialchars($prod['nombre'] ?? '') ?></span>
-              <span class="prod-cant">x<?= $prod['cantidad'] ?? 0 ?></span>
+              <span class="prod-cant">x<?= $prod['cantidad'] ?? 0 ?> <?= htmlspecialchars($prod['unidad'] ?? '') ?></span>
             </div>
           <?php endforeach; ?>
           <?php if(count($prods)>3): ?>
@@ -273,6 +290,7 @@ foreach($stmtCount as $row){
           <div style="display:flex;align-items:center;gap:10px;">
             <span class="pedido-fecha"><?= $fecha ?></span>
             <button class="btn-ver" onclick="event.stopPropagation();abrirModal(<?= $p['id'] ?>)">Ver →</button>
+            <button class="btn-eliminar" onclick="event.stopPropagation();eliminarPedido(<?= $p['id'] ?>)">🗑️</button>
           </div>
         </div>
       </div>
@@ -308,7 +326,7 @@ function abrirModal(id){
     let rows = prods.map((pr,i) => `
       <tr>
         <td>${escHtml(pr.nombre||'')}</td>
-        <td style="text-align:center">${pr.cantidad||0}</td>
+        <td style="text-align:center">${pr.cantidad||0} ${pr.unidad?escHtml(pr.unidad):''}</td>
         <td><input class="price-input" type="number" id="precio_${p.id}_${i}" 
                    value="${pr.precio||0}" min="0" oninput="calcTotal(${p.id})" placeholder="0"></td>
         <td class="subtotal-cell" id="sub_${p.id}_${i}">
@@ -321,6 +339,7 @@ function abrirModal(id){
         <p><strong>Cliente:</strong> ${escHtml(p.nombre)}</p>
         <p><strong>Celular:</strong> ${escHtml(p.celular)}</p>
         ${p.ciudad?`<p><strong>Ciudad:</strong> ${escHtml(p.ciudad)}</p>`:''}
+        ${p.destino?`<p><strong>Destino:</strong> ${escHtml(p.destino)}</p>`:''}
         <p><strong>Fecha:</strong> ${p.fecha_creacion}</p>
       </div>
 
@@ -389,6 +408,11 @@ function guardar(id){
 function cerrarModal(e){
     if(e && e.target !== document.getElementById('modalOverlay')) return;
     document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function eliminarPedido(id){
+    if(!confirm('¿Seguro que deseas eliminar este pedido?')) return;
+    window.location = 'admin.php?delete=' + id;
 }
 
 function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}

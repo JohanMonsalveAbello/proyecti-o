@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS pedidos (
     nombre          VARCHAR(150) NOT NULL,
     celular         VARCHAR(20)  NOT NULL,
     ciudad          VARCHAR(100) DEFAULT '',
-    productos       TEXT         NOT NULL COMMENT 'JSON: [{nombre, cantidad, precio}]',
+    destino         ENUM('Restaurante','Negocio','Hogar') NOT NULL DEFAULT 'Hogar',
+    productos       TEXT         NOT NULL COMMENT 'JSON: [{nombre, cantidad, unidad, precio}]',
     estado          ENUM('solicitado','pagado','no_pagado') DEFAULT 'solicitado',
     total           DECIMAL(12,2) DEFAULT 0.00,
     fecha_creacion  DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -38,6 +39,50 @@ VALUES (
     '$2y$10$wkKD9JaFAmrVORy.m1.1dOKrF/Wv2R3Q6Kb7E8b0h2ZNEPqE8JnXq',
     'Administrador SurtiPaez'
 );
+
+-- Tabla de productos disponibles (para selección en el formulario)
+CREATE TABLE IF NOT EXISTS productos (
+    id    INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(150) NOT NULL UNIQUE
+) ENGINE=InnoDB;
+
+INSERT IGNORE INTO productos (nombre) VALUES
+('Habichela'),
+('Arveja sabanera cascara'),
+('Arveja San Isidro cascara'),
+('Arveja sabanera desgranada'),
+('Arveja San Isidro desgranada'),
+('Platano pinton'),
+('Platano verde'),
+('Platano maduro'),
+('Yuca gruesa'),
+('Yuca pareja'),
+('Arracacha'),
+('Habas cascara'),
+('Habas desgranada'),
+('Frijol cascara'),
+('Frijol desgranado'),
+('Zanahoria cero'),
+('Zahanoria .....'),
+('Zapayo'),
+('Ahuyama'),
+('Cebolla larga'),
+('Cebolla cabezona blanca'),
+('Cebolla cabezona roja'),
+('Papa criolla'),
+('Remolacha'),
+('Cohombro'),
+('Pimenton rojo'),
+('Pimenton verde'),
+('Guatila'),
+('Limon'),
+('Pepino de guiso'),
+('Tomate chonto extra'),
+('Tomate chonto primera'),
+('Tomate semi'),
+('Tomate parejo'),
+('Tomate larga vida selecto'),
+('Tomate primera parejo');
 -- Nota: el hash anterior es para "surtipaez2025"
 -- Si no funciona, puedes generar un nuevo hash así:
 -- <?php echo password_hash('surtipaez2025', PASSWORD_DEFAULT); ?>
