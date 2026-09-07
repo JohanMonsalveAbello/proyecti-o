@@ -122,6 +122,7 @@
     .hero-photo {
       width: 120px; height: 120px; border-radius: 50%;
       object-fit: cover;
+      background: #1a4a1a;
       border: 4px solid rgba(255,255,255,0.3);
       filter: brightness(0.9) saturate(1.2);
       transition: transform 0.3s, border-color 0.3s;
@@ -150,9 +151,11 @@
       border-radius: 20px; overflow: hidden;
       position: relative; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
       flex-shrink: 0;
+      background: #eee;
     }
     .carousel-card img {
       width: 100%; height: 100%; object-fit: cover;
+      display: block;
       transition: transform 0.4s;
     }
     .carousel-card:hover img { transform: scale(1.08); }
@@ -224,45 +227,21 @@
   <span class="hero-badge">🌱 Productos frescos del campo</span>
   <h1 class="hero-title">Surti<span>Paez</span></h1>
   <p class="hero-subtitle">Papa, yuca, lichi, plátano y mucho más — directo del campo a tu mesa con la mejor calidad y frescura garantizada.</p>
-  
+
   <a href="pedido.php" class="cta-btn">
     <span class="icon">🛒</span> Solicitar Pedido
   </a>
 
-  <!-- Fotos genéricas de productos usando servicios externos de imágenes -->
-  <div class="hero-photos">
-    <img class="hero-photo" src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=200&h=200&fit=crop" alt="Papa">
-    <img class="hero-photo" src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=200&h=200&fit=crop" alt="Yuca">
-    <img class="hero-photo" src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=200&h=200&fit=crop" alt="Frutas">
-    <img class="hero-photo" src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=200&h=200&fit=crop" alt="Plátano">
-    <img class="hero-photo" src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=200&h=200&fit=crop" alt="Verduras">
-  </div>
+  <!-- Las imágenes se generan por JS: cada una intenta cargar la foto real
+       y, si el enlace falla, se dibuja sola con un degradado + emoji. -->
+  <div class="hero-photos" id="heroPhotos"></div>
 </section>
 
 <!-- CARRUSEL -->
 <section class="carousel-section">
   <h2>🌿 Nuestros Productos Frescos</h2>
   <div class="carousel-track-outer">
-    <div class="carousel-track" id="track">
-      <!-- cards duplicadas para loop infinito -->
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=400&h=300&fit=crop" alt="Papa"><span class="label">🥔 Papa</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=400&h=300&fit=crop" alt="Yuca"><span class="label">🌿 Yuca</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&h=300&fit=crop" alt="Plátano"><span class="label">🍌 Plátano</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=400&h=300&fit=crop" alt="Lichi"><span class="label">🍈 Lichi</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400&h=300&fit=crop" alt="Ahuyama"><span class="label">🎃 Ahuyama</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=400&h=300&fit=crop" alt="Verduras"><span class="label">🥦 Verduras</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=400&h=300&fit=crop" alt="Maíz"><span class="label">🌽 Maíz</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=300&fit=crop" alt="Manzana"><span class="label">🍎 Frutas</span></div>
-      <!-- duplicado para efecto infinito -->
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1518977676405-7c25a7e4b7de?w=400&h=300&fit=crop" alt="Papa"><span class="label">🥔 Papa</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1596097635121-14b63b7b0b64?w=400&h=300&fit=crop" alt="Yuca"><span class="label">🌿 Yuca</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1528825871115-3581a5387919?w=400&h=300&fit=crop" alt="Plátano"><span class="label">🍌 Plátano</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1560671940-5c1a8ddf9a0d?w=400&h=300&fit=crop" alt="Lichi"><span class="label">🍈 Lichi</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1516594798947-e65505dbb29d?w=400&h=300&fit=crop" alt="Ahuyama"><span class="label">🎃 Ahuyama</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1573246123716-6b1782bfc499?w=400&h=300&fit=crop" alt="Verduras"><span class="label">🥦 Verduras</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1587735243615-c03f25aaff15?w=400&h=300&fit=crop" alt="Maíz"><span class="label">🌽 Maíz</span></div>
-      <div class="carousel-card"><img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=300&fit=crop" alt="Manzana"><span class="label">🍎 Frutas</span></div>
-    </div>
+    <div class="carousel-track" id="track"></div>
   </div>
 </section>
 
@@ -295,6 +274,78 @@
 <footer>
   <p><strong>SurtiPaez</strong> &copy; por el momento proyectiño </p>
 </footer>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   CATÁLOGO DE PRODUCTOS
+   Para poner TUS propias fotos, cambia el valor de "src".
+   Ej:  src: "img/papa.jpg"
+   Si "src" está vacío o el enlace se cae, se dibuja el emoji.
+   ───────────────────────────────────────────────────────────── */
+const PRODUCTOS = [
+  { nombre: "Papa",     emoji: "🥔", color: "#d9a441", src: "" },
+  { nombre: "Yuca",     emoji: "🌿", color: "#a1855c", src: "" },
+  { nombre: "Plátano",  emoji: "🍌", color: "#f2c14e", src: "" },
+  { nombre: "Lichi",    emoji: "🍒", color: "#d94f4f", src: "" },
+  { nombre: "Ahuyama",  emoji: "🎃", color: "#e8802a", src: "" },
+  { nombre: "Verduras", emoji: "🥦", color: "#4e9c4e", src: "" },
+  { nombre: "Maíz",     emoji: "🌽", color: "#e2b400", src: "" },
+  { nombre: "Frutas",   emoji: "🍎", color: "#c0392b", src: "" }
+];
+
+/* Dibuja la ilustración: degradado + puntitos + emoji grande.
+   Va dentro del archivo, así que nunca falla ni pide internet. */
+function placeholder(emoji, color, w, h) {
+  const id = Math.random().toString(36).slice(2, 8);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <defs>
+      <radialGradient id="g${id}" cx="50%" cy="38%" r="78%">
+        <stop offset="0%" stop-color="${color}"/>
+        <stop offset="100%" stop-color="#1f5a1f"/>
+      </radialGradient>
+      <pattern id="p${id}" width="26" height="26" patternUnits="userSpaceOnUse">
+        <circle cx="13" cy="13" r="9" fill="#ffffff" fill-opacity="0.05"/>
+      </pattern>
+    </defs>
+    <rect width="${w}" height="${h}" fill="url(#g${id})"/>
+    <rect width="${w}" height="${h}" fill="url(#p${id})"/>
+    <text x="50%" y="50%" font-size="${Math.round(Math.min(w, h) * 0.46)}"
+          text-anchor="middle" dominant-baseline="central">${emoji}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+/* Crea un <img> que se reemplaza solo si el enlace no carga */
+function crearImg(prod, clase, w, h) {
+  const img = document.createElement("img");
+  img.className = clase;
+  img.alt = prod.nombre;
+  img.loading = "lazy";
+  const fallback = placeholder(prod.emoji, prod.color, w, h);
+  img.onerror = function () { this.onerror = null; this.src = fallback; };
+  img.src = prod.src && prod.src.trim() ? prod.src : fallback;
+  return img;
+}
+
+/* Fotos redondas del hero (las 5 primeras) */
+const heroPhotos = document.getElementById("heroPhotos");
+PRODUCTOS.slice(0, 5).forEach(p => {
+  heroPhotos.appendChild(crearImg(p, "hero-photo", 200, 200));
+});
+
+/* Carrusel: se duplica la lista para el loop infinito */
+const track = document.getElementById("track");
+[...PRODUCTOS, ...PRODUCTOS].forEach(p => {
+  const card = document.createElement("div");
+  card.className = "carousel-card";
+  card.appendChild(crearImg(p, "", 400, 300));
+  const label = document.createElement("span");
+  label.className = "label";
+  label.textContent = `${p.emoji} ${p.nombre}`;
+  card.appendChild(label);
+  track.appendChild(card);
+});
+</script>
 
 </body>
 </html>
